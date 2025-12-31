@@ -1,4 +1,4 @@
-# Spectrum Agent: Natural Language-Driven Optical Multi-layer Structure Designer
+# Spectrum Agent: Natural Language-Driven Optical Multi-layer Film Structure Designer
 
 Spectrum Agent is a natural language-driven intelligent agent for designing optical multilayer film structures. It is fine-tuned based on domain knowledge extracted from a large number of research papers and tool invocation examples. It can recommend materials for structural design based on natural language input and invoke the PPO-BO algorithm to carry out the structure design.
 The literature used in this study was downloaded from the Internet. During the paper review phase, all code and datasets were made available on an anonymous GitHub repository. After the paper is published, we plan to provide all the code used in this study, as well as datasets free of copyright issues. For the datasets related to knowledge fine-tuning used in this study, as well as the core content of the RAG system, due to copyright concerns, we plan to release the code generating these contents and the DOI numbers of all the literature used in this study.
