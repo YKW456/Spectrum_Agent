@@ -1,0 +1,2 @@
+file_name,average_similarity,num_samples,min_similarity,max_similarity,std_dev
+model_responses.json,0.8434063,5112,0.35037133,0.9898205,0.08356092
