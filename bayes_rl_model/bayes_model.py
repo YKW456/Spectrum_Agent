@@ -61,12 +61,12 @@ class RL_based_Bayes_workflow():
                 file_path = os.path.join(folder_path, filename)
                 if os.path.isfile(file_path) and filename.endswith('.db'):
                     os.remove(file_path)
-                    print(f"已删除: {file_path}")
+
         self.temp_study = optuna.create_study(
             study_name='random',
             storage=self.storage_random,
             load_if_exists=False,  # This will overwrite existing study
-            direction="minimize"  # 根据你的目标函数调整
+            direction="minimize" 
         )
         random_sampler = optuna.samplers.RandomSampler(seed = 42)
         self.temp_study.sampler = random_sampler
@@ -118,7 +118,7 @@ class RL_based_Bayes_workflow():
                 if os.path.isfile(file_path) and filename.endswith('.db'):
                     if not filename.endswith('stage0.db'):
                         os.remove(file_path)
-                        print(f"已删除: {file_path}")
+
         self.temp_study = optuna.load_study(
             study_name='random',
             storage=self.storage_random,
@@ -254,8 +254,8 @@ class RL_based_Bayes_workflow():
         self.history_study.sampler = tpe_sampler
         for i in range(20):
             self.history_study.optimize(self.objective_func, n_trials=1)
-            # 获取当前试验的参数值
-            this_trial = self.history_study.trials[-1]  # 获取最后一个完成的试验
+
+            this_trial = self.history_study.trials[-1]
             self.history_value.append(this_trial.value)
     def optimize_with_just_random_samplers(self):
         random_sampler = optuna.samplers.RandomSampler(seed = 42)
@@ -280,7 +280,7 @@ class RL_based_Bayes_workflow():
         for i in range(20):
             repeat_count = 0
             self.temp_study.optimize(self.objective_func, n_trials=1)
-            this_trial = self.temp_study.trials[-1]  # 获取最后一个完成的试验
+            this_trial = self.temp_study.trials[-1]
             self.history_value.append(this_trial.value)
             # Extract first 'layer_nums' materials from params
             current_material = tuple(
@@ -347,7 +347,7 @@ class RL_based_Bayes_workflow2():
             storage=self.storage,
         )
 
-        sorted_trials = sorted(study.trials, key=lambda t: t.value) # 按值排序并取前n个
+        sorted_trials = sorted(study.trials, key=lambda t: t.value)
 
         i = 0
         print('Start finding parameters for top n materials combinations.')
