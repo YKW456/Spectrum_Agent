@@ -65,15 +65,15 @@ if __name__ == "__main__":
         gradient_accumulation_steps=4,
         per_device_eval_batch_size=2,
         logging_steps=5,
-        eval_steps=500,  # 每1000步评估一次
-        num_train_epochs=2,  # 2个epoch
+        eval_steps=500,
+        num_train_epochs=2,
         save_steps=1000,
         learning_rate=1e-4,
         save_on_each_node=True,
         gradient_checkpointing=True,
-        eval_strategy="steps",  # 启用按步骤评估
+        eval_strategy="steps",
         logging_dir="./logs",
-        metric_for_best_model="eval_loss",  # 根据验证集loss选择最佳模型
+        metric_for_best_model="eval_loss",
     )
 
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         model=model,
         args=training_args,
         train_dataset=tokenized_train_ds,
-        eval_dataset=tokenized_eval_ds,  # 传入验证集
+        eval_dataset=tokenized_eval_ds,
         data_collator=data_collator,
     )
 
