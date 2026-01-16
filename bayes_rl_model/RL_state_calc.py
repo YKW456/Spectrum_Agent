@@ -17,21 +17,19 @@ def calculate_material_conv(trials, penalty_factor=0.7):
     Convergence score (0-1, lower indicates better diversity)
     """
     if len(trials) < 2:
-        return 0.0  # 没有足够数据时返回最低收敛性
+        return 0.0  
 
-    # 获取所有材料参数名(假设前一半参数是材料)
+
     material_params = sorted([p for p in trials[0].params.keys()
                               if p.startswith('M') or p.lower().startswith('material')])
 
-    # 统计每种材料组合出现的频率
+
     combo_counts = defaultdict(int)
     unique_combos = set()
 
     for trial in trials:
         if trial.state != TrialState.COMPLETE:
             continue
-
-        # 获取当前试验的材料组合(按参数名排序确保顺序一致)
         materials = tuple(trial.params[p] for p in material_params)
         combo_counts[materials] += 1
         unique_combos.add(materials)
@@ -52,7 +50,7 @@ def calculate_material_conv(trials, penalty_factor=0.7):
     # Calculate the diversity of material types
     material_variety = len(unique_combos) / len(trials)
 
-    conv_score = 0.6 * (1 - norm_penalty) + 0.4 * material_variety  # 越高越好
+    conv_score = 0.6 * (1 - norm_penalty) + 0.4 * material_variety  
 
     return min(conv_score, 1.0)
 
@@ -106,13 +104,13 @@ def calculate_depth_cov(trials, penalty_factor=0.5):
     for p in depth_params:
         param_range = depth_ranges[p]['max'] - depth_ranges[p]['min']
         if param_range == 0:
-            coverage_scores.append(0.0)  # 单一值，覆盖率最低
+            coverage_scores.append(0.0)
             continue
 
         values = [t.params[p] for t in trials if t.state == TrialState.COMPLETE]
         hist, _ = np.histogram(values, bins=10,
                                range=(depth_ranges[p]['min'], depth_ranges[p]['max']))
-        coverage = np.sum(hist > 0) / 10  # 被覆盖的bin比例
+        coverage = np.sum(hist > 0) / 10 
         coverage_scores.append(coverage)
 
     avg_coverage = np.mean(coverage_scores) if coverage_scores else 0.0
@@ -138,7 +136,7 @@ def get_state(study):
 
 def calculate_reward(old_best, new_best, state):
     improvement = max(0, old_best - new_best) if old_best is not None else 0
-    reward = improvement * 10  # 放大改进信号
+    reward = improvement * 10
     reward += (1 - new_best)
     # Explore Reward.
     reward += (state['material_diversity'] * 0.2 * reward)
