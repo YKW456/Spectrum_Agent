@@ -288,7 +288,7 @@ class Construction():
         plt.axis('off')
         plt.title(f"RGB: ({r}, {g}, {b}),target:{color_target},error{error:.3f}")
 
-        os.makedirs(save_dir, exist_ok=True)  # 确保目录存在
+        os.makedirs(save_dir, exist_ok=True) 
         save_path = os.path.join(save_dir, f"{name}_rgb_color.png")
         plt.savefig(save_path, dpi=300, bbox_inches="tight", pad_inches=0)
         plt.close()
