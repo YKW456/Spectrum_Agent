@@ -14,7 +14,7 @@ class MultiAgentPPO:
         self.agents = {}
         self.action_space = action_space_config
 
-        # 为每个动作创建独立的PPO agent
+        # create PPO agent
         for param_name, config in action_space_config.items():
             state_dim = 6
             if config['type'] == 'continuous':
