@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
         llm = load_model(model_name)
 
-        total_runs = len(data)  # 假设运行30次，可以调整
+        total_runs = len(data)
 
         for i in range(total_runs):
             Config.Tool_last_use = 4
