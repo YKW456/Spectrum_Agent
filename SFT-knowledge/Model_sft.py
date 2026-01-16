@@ -35,7 +35,7 @@ def process_func(example, tokenizer):
         "{}".format(example['Output'])
     )
 
-    # 编码
+
     instruction_enc = tokenizer(instruction_text, add_special_tokens=False)
     response_enc = tokenizer(response_text, add_special_tokens=False)
 
@@ -68,11 +68,11 @@ class LossLoggingTrainer(Trainer):
         self.gradient_accumulation_steps = kwargs.pop('gradient_accumulation_steps', 4)
         super().__init__(*args, eval_dataset=eval_dataset, **kwargs)
 
-    def log(self, logs, start_time=None):  # ✅ 修复：添加start_time参数
-        # 调用父类的log方法，传递所有参数
+    def log(self, logs, start_time=None): 
+
         super().log(logs, start_time)
 
-        if 'loss' in logs and 'eval_loss' not in logs:  # 只记录训练loss
+        if 'loss' in logs and 'eval_loss' not in logs:
             self.loss_log.append({
                 'step': self.state.global_step,
                 'loss': logs['loss'],
@@ -82,17 +82,16 @@ class LossLoggingTrainer(Trainer):
             })
 
     def evaluation_loop(self, *args, **kwargs):
-        # 调用父类的评估循环
+
         output = super().evaluation_loop(*args, **kwargs)
 
-        # 记录验证集loss
         if hasattr(output, 'metrics') and 'eval_loss' in output.metrics:
             self.eval_log.append({
                 'step': self.state.global_step,
                 'eval_loss': output.metrics['eval_loss'],
                 'epoch': self.state.epoch
             })
-            print(f"Step {self.state.global_step}: 验证集 loss = {output.metrics['eval_loss']:.4f}")
+            print(f"Step {self.state.global_step}: Valid loss = {output.metrics['eval_loss']:.4f}")
 
         return output
 
@@ -100,15 +99,15 @@ class LossLoggingTrainer(Trainer):
         if self.loss_log:
             loss_df = pd.DataFrame(self.loss_log)
             loss_df.to_csv(filename, index=False, encoding='utf-8')
-            print(f"训练Loss log saved to {filename}")
+            print(f"Training Loss log saved to {filename}")
 
     def save_eval_log(self, filename='eval_loss_log.csv'):
         if self.eval_log:
             eval_df = pd.DataFrame(self.eval_log)
             eval_df.to_csv(filename, index=False, encoding='utf-8')
-            print(f"验证集Loss log saved to {filename}")
+            print(f"Validation Loss log saved to {filename}")
 
     def save_all_logs(self, train_filename='training_loss_log.csv', eval_filename='eval_loss_log.csv'):
-        """同时保存训练和验证loss"""
+
         self.save_loss_log(train_filename)
         self.save_eval_log(eval_filename)
