@@ -1,4 +1,4 @@
-# 配置文件,可以直接传递参数到其余py文件
+
 import os
 import numpy as np
 import torch
