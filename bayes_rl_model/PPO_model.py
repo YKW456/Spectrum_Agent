@@ -233,8 +233,7 @@ class PPO:
         old_logprobs = torch.stack(self.buffer.logprobs).detach()
         old_state_values = torch.stack(self.buffer.state_values).detach()
 
-        # 确保维度正确（移除多余的维度）
-        old_states = old_states.squeeze()  # 例如从 [N, 1, D] -> [N, D]
+        old_states = old_states.squeeze()
         old_actions = old_actions.squeeze()
         old_logprobs = old_logprobs.squeeze()
         old_state_values = old_state_values.squeeze()
