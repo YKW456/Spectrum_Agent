@@ -8,7 +8,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from pathlib import Path
 from datetime import datetime
 
-# 配置
+
 model_name = 'qwen-sft-Nov'
 model_pth = "../Model/Qwen2.5_7b"
 DATA_FILE = 'all_qa_pairs_merged_test.json'
