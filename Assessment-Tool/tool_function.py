@@ -8,7 +8,7 @@ from langchain.tools import BaseTool
 
 
 class Search_Materials_Tool(BaseTool):
-    name: str = "Search_Materials_Tool"  # 添加类型注解
+    name: str = "Search_Materials_Tool" 
     description: str ='''
     Search for materials information using RAG (Retrieval-Augmented Generation).
     Args:
@@ -17,16 +17,15 @@ class Search_Materials_Tool(BaseTool):
         String containing the search results
     '''
     def _run(self, keywords: str) -> str:
-        """执行搜索并返回格式化的结果"""
         results = self.search(keywords)
         return results
 
     def search(self,keywords: str) -> str:
-        """调用博查API进行搜索"""
+
         csv_file_path = 'Material_base/extracted_data_cleaned.csv'
         return rag_func.search_materials(csv_file_path, keywords)
 class Update_Config(BaseTool):
-    name: str = "Update_Config"  # 添加类型注解
+    name: str = "Update_Config"
     description: str = '''
     Update configuration parameters in Config class and regenerate dependent variables.
 
@@ -52,13 +51,13 @@ class Update_Config(BaseTool):
     '''
 
     def _run(self, tool_input: str, **kwargs) -> str:
-        """处理可能包含非标准JSON的输入"""
+
         try:
-            # 先尝试标准解析
+
             params = json.loads(tool_input)
         except JSONDecodeError:
             try:
-                # 尝试替换单引号为双引号
+
                 fixed_input = tool_input.replace("'", '"')
                 params = json.loads(fixed_input)
             except Exception as e:
@@ -80,7 +79,7 @@ class Update_Config(BaseTool):
                    color_target: Optional[List[int]] = None,
                    spectrum_target: Optional[List[List[Union[int, str]]]] = None
                    ) -> str:
-        """执行搜索并返回格式化的结果"""
+
         updates = []
 
         # Validate and update DEPTH_MAX
@@ -127,10 +126,10 @@ class Update_Config(BaseTool):
             if isinstance(spectrum_target, list):
                 for entry in spectrum_target:
                     if not (isinstance(entry, list) and len(entry) == 5 and
-                            all(isinstance(x, (int, float)) for x in entry[:4]) and  # 前四个元素可以是int或float
+                            all(isinstance(x, (int, float)) for x in entry[:4]) and  
                             isinstance(entry[4], str) and entry[4] in ['T', 'R', 'A']):
                         valid_spectrum = False
-                        break  # 修正：break应该在if not条件内
+                        break 
 
             if valid_spectrum:
                 Config.SPECTRUM_TARGET = spectrum_target
